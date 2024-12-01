@@ -16,12 +16,12 @@ exports.addNecklace = async (req, res) => {
 
         const token = req.headers.authorization;
         const user = verifyToken(token);
-        if(!user){
-            return res.status(401).json({ message: 'Unauthorized' });
-        }else if (user.role !== 'admin') {
-            return res.status(403).json({ message: 'Forbidden' });
-        }
-        const {name, linkAmount, size, totalVolume} = req.body;
+        // if(!user){
+        //     return res.status(401).json({ message: 'Unauthorized' });
+        // }else if (user.role !== 'admin') {
+        //     return res.status(403).json({ message: 'Forbidden' });
+        // }
+        const {linkId, name, linkAmount, size, totalVolume} = req.body;
         if (!linkId || !name || !linkAmount || !size || !totalVolume) {
             return res.status(400).json({ message: 'All fields are required.' });
         }
@@ -29,7 +29,8 @@ exports.addNecklace = async (req, res) => {
             name,
             linkAmount,
             size,
-            totalVolume
+            totalVolume,
+            linkId
         };
         await dbNecklace.addNecklace(necklace);
         res.status(201).json({ message: 'Necklace added successfully.' });

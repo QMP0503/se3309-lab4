@@ -54,9 +54,9 @@ function Signup() {
                     firstName,
                     lastName,
                     address,
-                    phone,
+                    phoneNumber: phone,
                     username,
-                    email,
+                    emailAddress: email,
                     password
                 }),
             });

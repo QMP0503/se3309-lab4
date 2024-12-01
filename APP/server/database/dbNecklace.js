@@ -20,6 +20,9 @@ async function getNecklaces() {
 
 async function addNecklace(necklace) {
     const client = await db.createDb();
+    
+    console.log(necklace.linkId)
+
     try {
         await client.connect();
         const [result] = await client.query(

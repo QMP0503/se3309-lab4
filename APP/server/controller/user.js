@@ -51,6 +51,8 @@ exports.register = async (req, res) => {
     try {
         const { username, firstName, lastName, password, emailAddress, phoneNumber } = req.body;
 
+        console.log(username, firstName, lastName, password, emailAddress, phoneNumber)
+
         if(!username || !firstName || !lastName || !password || !emailAddress || !phoneNumber){
             return res.status(400).json({ error: 'Missing required fields' });
         }

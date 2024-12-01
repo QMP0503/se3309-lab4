@@ -45,6 +45,7 @@ router.get('/orders', orderController.getAllOrders);
 router.post('/orders', orderController.addOrder);
 router.put('/orders', orderController.updateOrder);
 router.delete('/orders/:id', orderController.deleteOrder);
+router.get('/orders/:id', orderController.getAllUserOrders)
 
 //product
 router.get('/products', productController.getAllProducts);
