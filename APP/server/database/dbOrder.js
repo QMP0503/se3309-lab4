@@ -6,7 +6,7 @@ async function getOrders() {
     try {
         await client.connect();
         const res = await client.query('SELECT * FROM family_jewels.customer_order');
-        return res.rows;
+        return res[0];
     } catch (error) {
         console.error('Error getting orders:', error.message);
         throw error;
