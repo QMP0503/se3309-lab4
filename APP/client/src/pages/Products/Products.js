@@ -99,13 +99,16 @@ const Products = () => {
 
         <div className='products'>
           {productPanels.map((product) => {
-            return <ProductPanel key={product.id} proId={product.productId} name={product.name} price={product.price} type={product.ringId ? "ring" : "necklace"} handleDetailsOpen={handleDetailsOpen} addToCart={addToCart}/>;
+            let type = product.ringId ? "ring" : "necklace";
+            let id = product.productId;
+            return <ProductPanel key={product.id} proId={id} name={product.name} price={product.price} type={type} handleDetailsOpen={()=>{handleDetailsOpen(type,id)}} addToCart={addToCart}/>;
           })}
         </div>
       </div>
       
       <div className='details-popup' hidden={!details}>
         <div className='details-panel'>
+       
           <h2>Name: {selectedProduct.productName}</h2>
           <img src={isRing ? ring : necklace} className='img-details'></img>
 
@@ -118,7 +121,9 @@ const Products = () => {
             <p className='product-details'>Metal Type: {selectedProduct.type}</p>
             {/* <p className='product-details'>Gem: {}</p> */}
             <p className='product-details'>Creator: {selectedProduct.firstName + " " + selectedProduct.lastName}</p>
-          </div>
+          
+          </div> 
+          
           
           <button className='search-button' onClick={() => setDetails(false)}>Exit</button>
         </div>
@@ -127,27 +132,48 @@ const Products = () => {
   )
 
   function handleDetailsOpen(type, id) {
-    fetch(`/api/products/details/ring/${id}`, {
-      method: "GET",
-      headers: {
-          "Content-Type": "application/json"
-      }})
-    .then(response => response.json())
-    .then(data => {
-      console.log(data)
-      setSelectedProduct(data.message);
-    })
-    .catch(error => {
-        console.error("Error fetching products", error);
-    });
-
     setDetails(true)
+    
     if(type === "ring") {
+      console.log("ring");
       setRing(true);
+
+      fetch(`/api/products/details/ring/${id}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }})
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        setSelectedProduct(data.message);
+      })
+      .catch(error => {
+          console.error("Error fetching products", error);
+      });
     }
     else {
       setRing(false);
+      console.log("not ring id:" +id);
+      fetch(`/api/products/details/necklace/${id}`, {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }})
+      .then(response => response.json())
+      .then(data => {
+        console.log(data)
+        setSelectedProduct(data.message);
+      })
+      .catch(error => {
+          console.error("Error fetching products", error);
+      });
     }
+
+
+    
+
+    
   }
 
   function addToCart(id) {

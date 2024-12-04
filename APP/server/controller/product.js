@@ -132,7 +132,7 @@ exports.getRingDetails = async (req, res) => {
 exports.getNecklaceDetails = async (req, res) => {
     try {
         const productId = req.params.id;
-
+        console.log('neckid:'+productId);
         // Check if productId is provided in the request parameters
         if (!productId) {
             return res.status(400).json({ message: 'Product ID is required.' });

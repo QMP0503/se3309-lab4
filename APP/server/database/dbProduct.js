@@ -177,4 +177,4 @@ async function deleteProduct(id) {
     }
 }
 
-module.exports = {getProducts, getProduct, addProduct, updateProduct, deleteProduct, getProductDetailsRing, getProductDetailNecklace};
+module.exports = {getProducts, getProduct, addProduct, updateProduct, deleteProduct, getProductDetailsRing, getProductDetailsNecklace};
