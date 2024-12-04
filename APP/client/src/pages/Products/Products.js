@@ -6,6 +6,7 @@ import ProductPanel from './ProductPanel'
 
 const Products = () => {
   const [details, setDetails] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState({});
   const [isRing, setRing] = useState(true);
   const [productPanels, setProductPanels] = useState([]);
 
@@ -98,22 +99,25 @@ const Products = () => {
 
         <div className='products'>
           {productPanels.map((product) => {
-            return <ProductPanel key={product.id} name={product.name} price={product.price} type={product.ringId ? "ring" : "necklace"} handleDetailsOpen={handleDetailsOpen} addToCart={addToCart}/>;
+            return <ProductPanel key={product.id} proId={product.productId} name={product.name} price={product.price} type={product.ringId ? "ring" : "necklace"} handleDetailsOpen={handleDetailsOpen} addToCart={addToCart}/>;
           })}
         </div>
       </div>
       
       <div className='details-popup' hidden={!details}>
         <div className='details-panel'>
-          <h2>Name</h2>
+          <h2>Name: {selectedProduct.productName}</h2>
           <img src={isRing ? ring : necklace} className='img-details'></img>
 
           <div className='details'>
-            <p className='product-details'>Price: </p>
-            <p className='product-details'>Mass: </p>
-            <p className='product-details'>Metal: </p>
-            <p className='product-details'>Gem: </p>
-            <p className='product-details'>Creator: </p>
+            <p className='product-details'>Price: {selectedProduct.price}</p>
+            <p className='product-details'>Mass: {selectedProduct.mass}</p>
+            <p className='product-details'>Metal: {selectedProduct.name}</p>
+            <p className='product-details'>Volume: {selectedProduct.volume}</p>
+            <p className='product-details'>Metal Purity: {selectedProduct.purity}</p>
+            <p className='product-details'>Metal Type: {selectedProduct.type}</p>
+            {/* <p className='product-details'>Gem: {}</p> */}
+            <p className='product-details'>Creator: {selectedProduct.firstName + " " + selectedProduct.lastName}</p>
           </div>
           
           <button className='search-button' onClick={() => setDetails(false)}>Exit</button>
@@ -123,6 +127,20 @@ const Products = () => {
   )
 
   function handleDetailsOpen(type, id) {
+    fetch(`/api/products/details/ring/${id}`, {
+      method: "GET",
+      headers: {
+          "Content-Type": "application/json"
+      }})
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+      setSelectedProduct(data.message);
+    })
+    .catch(error => {
+        console.error("Error fetching products", error);
+    });
+
     setDetails(true)
     if(type === "ring") {
       setRing(true);
@@ -130,9 +148,6 @@ const Products = () => {
     else {
       setRing(false);
     }
-
-    //Get product details with API
-    console.log(id);
   }
 
   function addToCart(id) {
@@ -167,50 +182,11 @@ const Products = () => {
       }})
     .then(response => response.json())
     .then(data => {
-      console.log(data)
         setProductPanels(data);
     })
     .catch(error => {
         console.error("Error fetching products", error);
     });
-
-
-    const testArray = [{
-      id: 1,
-      productName: "pingas",
-      creator: "hdsja",
-      gem: "Diamond",
-      metal: "gold",
-      type: "ring",
-      name: "bingo",
-      mass: 100,
-      price: 20000
-    },
-    {
-      id: 2,
-      productName: "pingas",
-      creator: "hdsja",
-      gem: "Diamond",
-      metal: "gold",
-      type: "necklace",
-      name: "bingo",
-      mass: 100,
-      price: 20000
-    },
-    {
-      id: 3,
-      productName: "pingas",
-      creator: "hdsja",
-      gem: "Diamond",
-      metal: "gold",
-      type: "necklace",
-      name: "bingo",
-      mass: 100,
-      price: 20000
-    }
-  ];
-
-    setProductPanels(testArray);
   }
 }
 

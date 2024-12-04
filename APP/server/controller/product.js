@@ -104,12 +104,12 @@ exports.getRingDetails = async (req, res) => {
         // }else if (user.role !== 'admin') {
         //     return res.status(403).json({ message: 'Forbidden' });
         // }
-        const {productId} = req.body;
+        const productId = req.params.id;
         if (!productId) {
             return res.status(400).json({ message: 'Product ID is required.' });
         }
-        await dbProduct.getProductDetailsRing(productId);
-        res.status(200).json({ message: 'Success.' });
+        const details = await dbProduct.getProductDetailsRing(productId);
+        res.status(200).json({ message: details });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

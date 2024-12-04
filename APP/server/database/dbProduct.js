@@ -35,10 +35,11 @@ async function getProductDetailsRing(id) {
     const client = await db.createDb();
 
     try {
-        const [results] = await client.query(`SELECT Product.name, Product.mass, Product.price, Product.type, Ring.name, Ring.size, Ring.volume, Metal.name, Metal.purity, Metal.type
+        const [results] = await client.query(`SELECT Product.name as productName, Product.mass, Product.price, Product.type, Ring.name, Ring.size, Ring.volume, Metal.name, Metal.purity, Metal.type, User.firstName, User.lastName
                                                 FROM Product
                                                 JOIN Ring ON Product.ringId=Ring.ringId
                                                 JOIN Metal ON Product.metalId=Metal.metalId
+                                                JOIN User ON Product.creatorId=User.userId
                                                 WHERE Product.productId = ${id}`);
         return results[0]; // Return the first product found
     } catch (error) {
