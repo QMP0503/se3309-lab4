@@ -37,10 +37,10 @@ const CreateProduct = () => {
           
           <label>
             Gem:
-            <select className='drop-down' onChange={e => {JSON.parse(e.target.value);  setGem(e.target.value)}}>
+            <select className='drop-down' onChange={e => {const selectedGem = JSON.parse(e.target.value);  setGem(selectedGem)}}>
                 <option value="">Select a Gem</option>
                       {gems.map((gem) => (
-                        <option key={gem.id} value={JSON.stringify(gem.name)}>
+                        <option key={gem.id} value={JSON.stringify(gem)}>
                           {gem.shape} {gem.name} {gem.carat} carats
                         </option>
                       ))}
@@ -68,10 +68,10 @@ const CreateProduct = () => {
 
           <label>
             Link Type:
-            <select className='drop-down' onChange={e => {setLink(e.target.value);}}>
+            <select className='drop-down' onChange={e => {const selectedLink = JSON.parse(e.target.value); setLink(selectedLink);}}>
                   <option value="">Select a Link</option>
                       {links.map((link) => (
-                                <option key={link.id} value={link.id}>
+                                <option key={link.id} value={JSON.stringify(link)}>
                                   {link.name},   size: {link.size}
                                 </option>
                               ))}
@@ -202,7 +202,14 @@ const CreateProduct = () => {
             volume: ringVolume, //mass*$pg metal + gem
           })
       })
-      .then(response => response.json())
+      .then(response => {
+          if (response.status === 201) {
+          // Parse the JSON only if the response is successful
+          return response.json();
+        } else {
+          throw new Error("Unexpected Error");
+        }
+      })
       .then(data => {
           alert("Necklace order created successfully!");
           const neckId = data.neckId;
@@ -233,7 +240,14 @@ const CreateProduct = () => {
                                                           //FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIXXXXXXXXXXXXXX
                                                                               //FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIXXXXXXXXXXXXXX
               })})
-          .then(response => response.json())
+          .then(response => {
+              if (response.status === 201) {
+                // Parse the JSON only if the response is successful
+                return response.json();
+              } else {
+                throw new Error("Unexpected Error");
+              }
+          })
           .then(data => {
               if (data.success) {
                   alert("Necklace order created successfully!");
@@ -270,13 +284,14 @@ const CreateProduct = () => {
         const mass = metal.density * ringVolume;
         let price = mass*metal.costPerGram;
         if(gem){
+          console.log("gem"+gem.price);
           price += gem.price;
         }
 
         console.log("price", gem)
         console.log(ringSize);
         console.log(ringVolume);
-
+        console.log(price);
         //FETCH RING, POST TO RING TABLE
         fetch("/api/rings", {
             method: "POST",
@@ -289,7 +304,14 @@ const CreateProduct = () => {
               volume: ringVolume,
             })
         })
-        .then(response => response.json())
+        .then(response => {
+          if (response.status === 201) {
+            // Parse the JSON only if the response is successful
+            return response.json();
+          } else {
+            throw new Error("Unexpected Error");
+          }
+        })
         .then(data => {
             alert("Ring order created successfully!");
             const ringId = data.ringId;
@@ -323,7 +345,14 @@ const CreateProduct = () => {
                                                             //FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIXXXXXXXXXXXXXX
                                                                                 //FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIXXXXXXXXXXXXXX
               })})
-          .then(response => response.json())
+          .then(response => {
+            if (response.status === 201) {
+              // Parse the JSON only if the response is successful
+              return response.json();
+            } else {
+              throw new Error("Unexpected Error");
+            }
+          })
           .then(data => {
               alert("Product order created successfully!");
           })
