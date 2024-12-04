@@ -29,20 +29,6 @@ const client = await db.createDb();
     }
 }
 
-// Get a user by ID
-async function getUserById(id) {
-const client = await db.createDb();
-
-    try {
-        const [results] = await client.query('SELECT * FROM user WHERE userid = ?', [id]);
-        return results[0];
-    } catch (error) {
-        console.error('Error fetching user by ID:', error.message);
-        throw error;
-    } finally {
-        await client.end();
-    }
-}
 
 // Add a new user (Admin or Customer)
 async function addUser(user) {
@@ -65,7 +51,7 @@ const client = await db.createDb();
             const customerQuery = `
                 INSERT INTO customer (customerId, address, emailAddress, phoneNumber) 
                 VALUES (?, ?, ?, ?)`;
-            await client.query(customerQuery, [newUser.userid, user.address, user.emailAddress, user.phoneNumber]);
+            await client.query(customerQuery, [newUser.userId, user.address, user.emailAddress, user.phoneNumber]);
         }
 
         console.log('User added successfully');
@@ -89,7 +75,7 @@ const client = await db.createDb();
             UPDATE user 
             SET userType = ?, username = ?, firstName = ?, lastName = ?, password = ? 
             WHERE userid = ?`;
-        await client.query(userUpdateQuery, [user.userType, user.username, user.firstName, user.lastName, user.password, user.userid]);
+        await client.query(userUpdateQuery, [user.userType, user.username, user.firstName, user.lastName, user.password, user.userId]);
 
         // If userType is 'Customer', update additional customer details
         if (user.userType === 'Customer') {
@@ -131,7 +117,6 @@ const client = await db.createDb();
 module.exports = {
     userLogin,
     getUsers,
-    getUserById,
     addUser,
     updateUser,
     deleteUser

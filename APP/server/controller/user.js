@@ -1,48 +1,7 @@
 const dbUser = require('../database/dbUser');
 const {generateToken, verifyToken} = require('./tokenFunction');
 
-const bcrypt = require('bcrypt');
 
-/**
- * Hashes a password using bcrypt.
- * @param {string} password - The plain text password to hash.
- * @returns {Promise<string>} - The hashed password.
- */
-async function hashPassword(password) {
-    try {
-        const saltRounds = 10; // The cost factor for bcrypt (higher is more secure but slower).
-        const hashedPassword = await bcrypt.hash(password, saltRounds);
-        return hashedPassword;
-    } catch (error) {
-        console.error('Error hashing password:', error);
-        throw error;
-    }
-}
-
-/**
- * Verifies a password against a hash.
- * @param {string} password - The plain text password.
- * @param {string} hash - The stored hashed password.
- * @returns {Promise<boolean>} - True if the password matches the hash.
- */
-async function verifyPassword(password, hash) {
-    try {
-        return await bcrypt.compare(password, hash);
-    } catch (error) {
-        console.error('Error verifying password:', error);
-        throw error;
-    }
-}
-
-/*
-when user login:
-hash login
-then compare with hashed password in db
-if match, then login successful
-
-LOGGING IN WOULD ONLY USE POST REQUEST
-
-*/
 exports.login = async (req, res) => {
     try{
         //logging in with username because user does not have email
@@ -53,9 +12,8 @@ exports.login = async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        const isMatch = await verifyPassword(password, user.password);
-
-        if (!isMatch) {
+        //compare password (no hash cause no time)
+        if(!password === user.password){
             return res.status(401).json({ error: 'Invalid password' });
         }
 
@@ -93,9 +51,11 @@ exports.login = async (req, res) => {
 exports.register = async (req, res) => {
     try {
         const { username, firstName, lastName, password, emailAddress, phoneNumber } = req.body;
-        const hashedPassword = await hashPassword(password);
 
-        const user = {userType: "customer" , username, firstName, emailAddress, phoneNumber, lastName, password: hashedPassword};
+        if(!username || !firstName || !lastName || !password || !emailAddress || !phoneNumber){
+            return res.status(400).json({ error: 'Missing required fields' });
+        }
+        const user = {userType: "customer" , username, firstName, emailAddress, phoneNumber, lastName, password};
 
         const newUser = await dbUser.addUser(user);
 
@@ -155,9 +115,8 @@ exports.updateUser = async (req, res) => {
         }
 
         const { userId , username, firstName, lastName, password, emailAddress, phoneNumber } = req.body;
-        const hashedPassword = await hashPassword(password);
 
-        const user = { userId , username, firstName, lastName, emailAddress, phoneNumber, password: hashedPassword };
+        const user = { userId , username, firstName, lastName, emailAddress, phoneNumber,  password };
 
         const updatedUser = await dbUser.updateUser(user);
 
