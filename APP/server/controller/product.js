@@ -97,19 +97,28 @@ exports.deleteProduct = async (req, res) => {
 
 exports.getRingDetails = async (req, res) => {
     try {
-        const token = req.headers.authorization;
-        const user = verifyToken(token);
-        // if(!user){
-        //     return res.status(401).json({ message: 'Unauthorized' });
-        // }else if (user.role !== 'admin') {
-        //     return res.status(403).json({ message: 'Forbidden' });
-        // }
+        // Retrieve productId from URL parameters
         const productId = req.params.id;
+
+        // Check if productId is provided in the request
         if (!productId) {
             return res.status(400).json({ message: 'Product ID is required.' });
         }
-        const details = await dbProduct.getProductDetailsRing(productId);
-        res.status(200).json({ message: details });
+
+        // Fetch product details from database using the productId
+        const productDetail = await dbProduct.getProductDetailsRing(productId);
+
+        // If no product found, send a 404 response
+        if (!productDetail) {
+            return res.status(404).json({ message: 'Product not found.' });
+        }
+
+        // Return product details in a successful response
+        res.status(200).json({
+            message: 'Success.',
+            ProductDetail: productDetail
+        });
+
     } catch (error) {
         // If an error occurs, send a 500 response with the error message
         console.error('Error fetching ring details:', error.message);
@@ -122,7 +131,7 @@ exports.getRingDetails = async (req, res) => {
 
 exports.getNecklaceDetails = async (req, res) => {
     try {
-        const { productId } = req.params.id;
+        const productId = req.params.id;
 
         // Check if productId is provided in the request parameters
         if (!productId) {
