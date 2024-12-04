@@ -4,7 +4,7 @@ const db = require('./db'); // Assuming db.createDb() returns a connection or po
 async function userLogin(username) {
 const client = await db.createDb();
     client.connect();
-    return client.query('SELECT * FROM ed.users WHERE username = $1', [username])
+    return client.query(`SELECT * FROM user WHERE username = (?)`, [username])
         .then(res => {
             client.end();
             return res[0];

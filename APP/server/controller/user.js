@@ -6,7 +6,7 @@ exports.login = async (req, res) => {
     try{
         //logging in with username because user does not have email
         const { username, password } = req.body;
-        const user = await dbUser.userLogin(username);
+        const user = await dbUser.userLogin(username);//MySQL returns an array of objects instead of just an object
 
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
@@ -20,18 +20,18 @@ exports.login = async (req, res) => {
         if(user.status === 'deactivated'){
             return res.status(402).json({error: 'Deactivated account status'})
         }
-        const token = generateToken(user);
+        console.log(user[0]);
+
+        const token = generateToken(user[0]);
 
         res.status(200).json({ //this is what will be stored in the front end
             message: 'Login successful',
             user: {
-                user_id: user.id,
+                user_id: user.userId,
                 username: user.username,
-                email: user.email,
-                type: user.type,
-                status: user.status,
-                created_at: user.created_at,
-                updated_at: user.updated_at
+                firstName: user.type,
+                lastName: user.status,
+                userType: user.userType
             },
             token: token
         });
