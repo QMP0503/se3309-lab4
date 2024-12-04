@@ -16,11 +16,11 @@ exports.addProduct = async (req, res) => {
         const token = req.headers.authorization;
         const user = verifyToken(token);
         console.log(user)
-        // if(!user){
-        //     return res.status(401).json({ message: 'Unauthorized' });
-        // }else if (user.role !== 'admin') {
-        //     return res.status(403).json({ message: 'Forbidden' });
-        // }
+        if(!user){
+            return res.status(401).json({ message: 'Unauthorized' });
+        }else if (user.role !== 'admin') {
+            return res.status(403).json({ message: 'Forbidden' });
+        }
         //CREATOR ID IS THE USER ID
         const {name, mass, price, metalId, gemId, necklaceId, ringId, creatorId} = req.body;
         console.log(name, mass, price, metalId, gemId, necklaceId, ringId, creatorId)

@@ -4,7 +4,11 @@ async function getNecklaces() {
     const client = await db.createDb();
     try {
         await client.connect();
-        const res = await client.query('SELECT * FROM family_jewels.necklace');
+        const res = await client.query(`
+            SELECT *
+            FROM family_jewels.necklace`
+        );
+
         return res[0];
     } catch (error) {
         console.error('Error getting necklaces:', error.message);
