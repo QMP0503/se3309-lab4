@@ -35,7 +35,7 @@ async function getProductDetailsRing(id) {
     const client = await db.createDb();
 
     try {
-        const [results] = await client.query(`SELECT Product.name, Product.mass, Product.price, Product.type, Ring.name, Ring.size, Ring.volume 
+        const [results] = await client.query(`SELECT Product.name, Product.mass, Product.price, Product.type, Ring.name, Ring.size, Ring.volume, Metal.name, Metal.purity, Metal.type
                                                 FROM Product
                                                 JOIN Ring ON Product.ringId=Ring.ringId
                                                 JOIN Metal ON Product.metalId=Metal.metalId
