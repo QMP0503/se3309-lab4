@@ -7,7 +7,7 @@ exports.login = async (req, res) => {
         //logging in with username because user does not have email
         const { username, password } = req.body;
         const result = await dbUser.userLogin(username);//MySQL returns an array of objects instead of just an object
-        const user = result[0];
+        const user = result[0];// mysql data stuff
 
         if (!result) {
             return res.status(404).json({ error: 'User not found' });

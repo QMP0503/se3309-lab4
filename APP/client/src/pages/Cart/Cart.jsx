@@ -8,7 +8,6 @@ function Cart(){
   function populateCart() {
     //get all items from cartItem in session storage
 
-
     if(!cartItems) {
       return;
     }

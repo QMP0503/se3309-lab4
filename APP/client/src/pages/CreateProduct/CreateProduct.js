@@ -37,10 +37,10 @@ const CreateProduct = () => {
           
           <label>
             Gem:
-            <select className='drop-down' onChange={e => {JSON.parse(e.target.value);  setGem(e.target.value)}}>
+            <select className='drop-down' onChange={e => {const selectedGem = JSON.parse(e.target.value);  setGem(selectedGem)}}>
                 <option value="">Select a Gem</option>
                       {gems.map((gem) => (
-                        <option key={gem.id} value={JSON.stringify(gem.name)}>
+                        <option key={gem.id} value={JSON.stringify(gem)}>
                           {gem.shape} {gem.name} {gem.carat} carats
                         </option>
                       ))}
@@ -68,10 +68,10 @@ const CreateProduct = () => {
 
           <label>
             Link Type:
-            <select className='drop-down' onChange={e => {setLink(e.target.value);}}>
+            <select className='drop-down' onChange={e => {const selectedLink = JSON.parse(e.target.value); setLink(selectedLink);}}>
                   <option value="">Select a Link</option>
                       {links.map((link) => (
-                                <option key={link.id} value={link.id}>
+                                <option key={link.id} value={JSON.stringify(link)}>
                                   {link.name},   size: {link.size}
                                 </option>
                               ))}
@@ -202,17 +202,28 @@ const CreateProduct = () => {
             volume: ringVolume, //mass*$pg metal + gem
           })
       })
-      .then(response => response.json())
+      .then(response => {
+          if (response.status === 201) {
+          // Parse the JSON only if the response is successful
+          return response.json();
+        } else {
+          throw new Error("Unexpected Error");
+        }
+      })
       .then(data => {
           alert("Necklace order created successfully!");
           const neckId = data.neckId;
-          console.log("id:"+data.neckId);
-          console.log(sessionStorage.getItem("user")) ////////////SEEEEESSSSSIOOOOON STOOOOORAAAAAGEEEE ISSSSS NULLLLLL o wait
+          // console.log("id:"+data.neckId);
+          // console.log(sessionStorage.getItem("user")) ////////////SEEEEESSSSSIOOOOON STOOOOORAAAAAGEEEE ISSSSS NULLLLLL o wait
+          
+          const userString = sessionStorage.getItem("user");
           let userId;
-          if(sessionStorage.getItem("user").user_id != null){
-            userId = sessionStorage.getItem("user").user_id
+
+          const user = JSON.parse(userString); 
+          if(user.user_id != null){
+            userId = user.user_id
           }else {
-            userId = 0;
+            userId = 1;
           }
    
           fetch("/api/products", {
@@ -224,8 +235,8 @@ const CreateProduct = () => {
                 name: neckName, 
                 mass: mass,  //#links * link vol * metal density
                 price: price, //mass*$pg metal + gem
-                metalId: metal.id, 
-                gemId: gem.id, 
+                metalId: metal.metalId, 
+                gemId: gem.gemId, 
                 necklaceId: neckId, //find way to iterate from last created??? shouldnt this be done on the backend
                 ringId: null,  
                 creatorId: userId//FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIXXXXXXXXXXXXXX
@@ -233,7 +244,14 @@ const CreateProduct = () => {
                                                           //FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIXXXXXXXXXXXXXX
                                                                               //FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIXXXXXXXXXXXXXX
               })})
-          .then(response => response.json())
+          .then(response => {
+              if (response.status === 201) {
+                // Parse the JSON only if the response is successful
+                return response.json();
+              } else {
+                throw new Error("Unexpected Error");
+              }
+          })
           .then(data => {
               if (data.success) {
                   alert("Necklace order created successfully!");
@@ -270,13 +288,14 @@ const CreateProduct = () => {
         const mass = metal.density * ringVolume;
         let price = mass*metal.costPerGram;
         if(gem){
+          console.log("gem"+gem.price);
           price += gem.price;
         }
 
         console.log("price", gem)
         console.log(ringSize);
         console.log(ringVolume);
-
+        console.log(price);
         //FETCH RING, POST TO RING TABLE
         fetch("/api/rings", {
             method: "POST",
@@ -289,21 +308,33 @@ const CreateProduct = () => {
               volume: ringVolume,
             })
         })
-        .then(response => response.json())
+        .then(response => {
+          if (response.status === 201) {
+            // Parse the JSON only if the response is successful
+            return response.json();
+          } else {
+            throw new Error("Unexpected Error");
+          }
+        })
         .then(data => {
             alert("Ring order created successfully!");
             const ringId = data.ringId;
+
             console.log("id:"+data.ringId);
-            console.log(sessionStorage.getItem("user")) ////////////SEEEEESSSSSIOOOOON STOOOOORAAAAAGEEEE ISSSSS NULLLLLL o wait
+            // console.log(sessionStorage.getItem("user"))
+            // console.log(sessionStorage.getItem("user")["username"]) ////////////SEEEEESSSSSIOOOOON STOOOOORAAAAAGEEEE ISSSSS NULLLLLL o wait
+            const userString = sessionStorage.getItem("user");
             let userId;
-            if(sessionStorage.getItem("user").user_id != null){
-              userId = sessionStorage.getItem("user").user_id
+
+            const user = JSON.parse(userString); 
+            if(user.user_id != null){
+              userId = user.user_id
             }else {
-              userId = 0;
+              userId = 1;
             }
 
             console.log(mass)
-
+            console.log("mId"+metal.metalId);
             fetch("/api/products", {
               method: "POST",
               headers: {
@@ -314,8 +345,8 @@ const CreateProduct = () => {
                 name: ringName, 
                 mass: mass,  //volume*density of metal
                 price: price, //mass*$pg metal + gem
-                metalId: metal.id, 
-                gemId: gem.id, 
+                metalId: metal.metalId, 
+                gemId: gem.gemId, 
                 necklaceId: null, 
                 ringId: ringId, 
                 creatorId: userId //FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIXXXXXXXXXXXXXX
@@ -323,7 +354,14 @@ const CreateProduct = () => {
                                                             //FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIXXXXXXXXXXXXXX
                                                                                 //FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIXXXXXXXXXXXXXX
               })})
-          .then(response => response.json())
+          .then(response => {
+            if (response.status === 201) {
+              // Parse the JSON only if the response is successful
+              return response.json();
+            } else {
+              throw new Error("Unexpected Error");
+            }
+          })
           .then(data => {
               alert("Product order created successfully!");
           })
