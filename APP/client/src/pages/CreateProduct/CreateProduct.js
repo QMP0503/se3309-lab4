@@ -213,13 +213,17 @@ const CreateProduct = () => {
       .then(data => {
           alert("Necklace order created successfully!");
           const neckId = data.neckId;
-          console.log("id:"+data.neckId);
-          console.log(sessionStorage.getItem("user")) ////////////SEEEEESSSSSIOOOOON STOOOOORAAAAAGEEEE ISSSSS NULLLLLL o wait
+          // console.log("id:"+data.neckId);
+          // console.log(sessionStorage.getItem("user")) ////////////SEEEEESSSSSIOOOOON STOOOOORAAAAAGEEEE ISSSSS NULLLLLL o wait
+          
+          const userString = sessionStorage.getItem("user");
           let userId;
-          if(sessionStorage.getItem("user").user_id != null){
-            userId = sessionStorage.getItem("user").user_id
+
+          const user = JSON.parse(userString); 
+          if(user.user_id != null){
+            userId = user.user_id
           }else {
-            userId = 0;
+            userId = 1;
           }
    
           fetch("/api/products", {
@@ -231,8 +235,8 @@ const CreateProduct = () => {
                 name: neckName, 
                 mass: mass,  //#links * link vol * metal density
                 price: price, //mass*$pg metal + gem
-                metalId: metal.id, 
-                gemId: gem.id, 
+                metalId: metal.metalId, 
+                gemId: gem.gemId, 
                 necklaceId: neckId, //find way to iterate from last created??? shouldnt this be done on the backend
                 ringId: null,  
                 creatorId: userId//FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIXXXXXXXXXXXXXX
@@ -315,17 +319,22 @@ const CreateProduct = () => {
         .then(data => {
             alert("Ring order created successfully!");
             const ringId = data.ringId;
+
             console.log("id:"+data.ringId);
-            console.log(sessionStorage.getItem("user")) ////////////SEEEEESSSSSIOOOOON STOOOOORAAAAAGEEEE ISSSSS NULLLLLL o wait
+            // console.log(sessionStorage.getItem("user"))
+            // console.log(sessionStorage.getItem("user")["username"]) ////////////SEEEEESSSSSIOOOOON STOOOOORAAAAAGEEEE ISSSSS NULLLLLL o wait
+            const userString = sessionStorage.getItem("user");
             let userId;
-            if(sessionStorage.getItem("user").user_id != null){
-              userId = sessionStorage.getItem("user").user_id
+
+            const user = JSON.parse(userString); 
+            if(user.user_id != null){
+              userId = user.user_id
             }else {
-              userId = 0;
+              userId = 1;
             }
 
             console.log(mass)
-
+            console.log("mId"+metal.metalId);
             fetch("/api/products", {
               method: "POST",
               headers: {
@@ -336,8 +345,8 @@ const CreateProduct = () => {
                 name: ringName, 
                 mass: mass,  //volume*density of metal
                 price: price, //mass*$pg metal + gem
-                metalId: metal.id, 
-                gemId: gem.id, 
+                metalId: metal.metalId, 
+                gemId: gem.gemId, 
                 necklaceId: null, 
                 ringId: ringId, 
                 creatorId: userId //FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIXXXXXXXXXXXXXX
