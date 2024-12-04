@@ -18,8 +18,6 @@ exports.login = async (req, res) => {
             return res.status(401).json({ error: 'Invalid password' });
         }
 
-
-
         console.log(user);
 
         const token = generateToken(user);

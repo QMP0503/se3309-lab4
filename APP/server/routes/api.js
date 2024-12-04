@@ -51,6 +51,7 @@ router.get('/products', productController.getAllProducts);
 router.post('/products', productController.addProduct);
 router.put('/products', productController.updateProduct);
 router.delete('/products/:id', productController.deleteProduct);
+router.get('/products/details/ring', productController.getRingDetails)
 
 //metal
 router.get('/metals', metalController.getMetal);

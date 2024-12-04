@@ -30,6 +30,43 @@ async function getProduct(id) {
     }
 }
 
+// Get a ring product details by ID
+async function getProductDetailsRing(id) {
+    const client = await db.createDb();
+
+    try {
+        const [results] = await client.query(`SELECT Product.name, Product.mass, Product.price, Product.type, Ring.name, Ring.size, Ring.volume 
+                                                FROM Product
+                                                JOIN Ring ON Product.ringId=Ring.ringId
+                                                JOIN Metal ON Product.metalId=Metal.metalId
+                                                WHERE Product.productId = ${id}`);
+        return results[0]; // Return the first product found
+    } catch (error) {
+        console.error('Error fetching product by ID:', error.message);
+        throw error;
+    } finally {
+        await client.end();
+    }
+}
+
+// Get a ring product details by ID
+async function getProductDetailsNecklace(id) {
+    const client = await db.createDb();
+
+    try {
+        const [results] = await client.query(`SELECT Product.name, Product.mass, Product.price, Product.type, Ring.name, Ring.size, Ring.volume 
+                                                FROM Product
+                                                JOIN Ring ON Product.ringId=Ring.ringId
+                                                WHERE Product.productId = ${id}`);
+        return results[0]; // Return the first product found
+    } catch (error) {
+        console.error('Error fetching product by ID:', error.message);
+        throw error;
+    } finally {
+        await client.end();
+    }
+}
+
 // Add a new product
 async function addProduct(product) {
     const client = await db.createDb();
@@ -101,4 +138,4 @@ async function deleteProduct(id) {
     }
 }
 
-module.exports = {getProducts, getProduct, addProduct, updateProduct, deleteProduct};
+module.exports = {getProducts, getProduct, addProduct, updateProduct, deleteProduct, getProductDetailsRing};

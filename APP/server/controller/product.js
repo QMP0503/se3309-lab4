@@ -93,4 +93,24 @@ exports.deleteProduct = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+
+exports.getRingDetails = async (req, res) => {
+    try {
+        const token = req.headers.authorization;
+        const user = verifyToken(token);
+        // if(!user){
+        //     return res.status(401).json({ message: 'Unauthorized' });
+        // }else if (user.role !== 'admin') {
+        //     return res.status(403).json({ message: 'Forbidden' });
+        // }
+        const {productId} = req.body;
+        if (!productId) {
+            return res.status(400).json({ message: 'Product ID is required.' });
+        }
+        await dbProduct.getProductDetailsRing(productId);
+        res.status(200).json({ message: 'Success.' });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
 }

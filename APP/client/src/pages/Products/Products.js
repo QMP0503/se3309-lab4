@@ -98,7 +98,7 @@ const Products = () => {
 
         <div className='products'>
           {productPanels.map((product) => {
-            return <ProductPanel key={product.id} name={product.productName} price={product.price} type={product.type} handleDetailsOpen={handleDetailsOpen} addToCart={addToCart}/>;
+            return <ProductPanel key={product.id} name={product.name} price={product.price} type={product.ringId ? "ring" : "necklace"} handleDetailsOpen={handleDetailsOpen} addToCart={addToCart}/>;
           })}
         </div>
       </div>
@@ -160,6 +160,21 @@ const Products = () => {
     //API CALL TO POPULATE productPanels WITH EXISTING PRODUCTS
     //NEED productId, price, all other attributes (would be good to select actual value instead of id, i.e. actual metal name instead of metalId)
     
+    fetch("/api/products", {
+      method: "GET",
+      headers: {
+          "Content-Type": "application/json"
+      }})
+    .then(response => response.json())
+    .then(data => {
+      console.log(data)
+        setProductPanels(data);
+    })
+    .catch(error => {
+        console.error("Error fetching products", error);
+    });
+
+
     const testArray = [{
       id: 1,
       productName: "pingas",
