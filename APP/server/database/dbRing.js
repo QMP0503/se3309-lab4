@@ -1,4 +1,4 @@
-const db = require('./dbRing');
+const db = require('./db');
 
 async function getRings() {
     const client = db.createDb();
