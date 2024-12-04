@@ -51,6 +51,7 @@ function Navbar () {
             }
             {username &&
             <ul>
+                <CustomLink to="/profile">View Orders</CustomLink>
                 <h4 style={{marginRight: 20}}>User: {username}</h4>
                 <button onClick={logout} className='logout-button'>Logout</button>
             </ul>

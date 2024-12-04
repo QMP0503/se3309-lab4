@@ -93,6 +93,7 @@ exports.deleteProduct = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
+}
 
 exports.getRingDetails = async (req, res) => {
     try {
@@ -112,5 +113,4 @@ exports.getRingDetails = async (req, res) => {
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
-}
 }

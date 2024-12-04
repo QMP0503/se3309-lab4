@@ -10,6 +10,16 @@ exports.getAllOrders = async (req, res) => {
     }
 }
 
+exports.getAllUserOrders = async (req, res) => {
+    try {
+        const id = req.params.id;
+        const orders = await dbOrders.getUserOrders(id);
+        res.status(200).json(orders);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
 //anyone can add order because they literally make the order
 //might have the calculations in the frontend....
 //(not the smartest idea... but it would make it easier with given data)

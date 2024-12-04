@@ -32,7 +32,7 @@ function Home(){
         }
         {username &&
             <div className='enter-site'>
-                <p>add something here like a button to table idk</p>
+                <Link to="/profile">Your Orders</Link>
             </div>
         }
 

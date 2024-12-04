@@ -41,6 +41,7 @@ router.delete('/links/:id', linksController.deleteLink);
 
 //order
 router.get('/orders', orderController.getAllOrders);
+router.get('/orders/:id', orderController.getAllUserOrders)
 //might need a get order by userID... not sure yet
 router.post('/orders', orderController.addOrder);
 router.put('/orders', orderController.updateOrder);
@@ -51,7 +52,7 @@ router.get('/products', productController.getAllProducts);
 router.post('/products', productController.addProduct);
 router.put('/products', productController.updateProduct);
 router.delete('/products/:id', productController.deleteProduct);
-router.get('/products/details/ring', productController.getRingDetails)
+router.get('/products/details/ring/:id', productController.getRingDetails)
 
 //metal
 router.get('/metals', metalController.getMetal);

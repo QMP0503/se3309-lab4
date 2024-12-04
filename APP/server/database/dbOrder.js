@@ -36,7 +36,41 @@ async function getOrders() {
     }
 }
 
+async function getUserOrders(id) {
+    const client = await db.createDb();
+    try {
+        await client.connect();
 
+        const query = `
+            SELECT
+                co.*,
+                c.address,
+                c.emailAddress,
+                c.phoneNumber,
+                u.firstName,
+                u.lastName
+            FROM
+                family_jewels.customer_order co
+                    JOIN
+                family_jewels.customer c
+                ON
+                    co.customerId = c.customerId
+                    JOIN
+                family_jewels.user u
+                ON
+                    c.customerId = u.userId
+            WHERE co.customerId = ${id}
+        `;
+
+        const res = await client.query(query);
+        return res[0]; // Return all rows as an array
+    } catch (error) {
+        console.error('Error getting orders:', error.message);
+        throw error;
+    } finally {
+        await client.end();
+    }
+}
 
 //add order
 async function addOrder(order) {
@@ -127,5 +161,6 @@ module.exports = {
     getOrders,
     addOrder,
     updateOrder,
-    deleteOrder
+    deleteOrder,
+    getUserOrders
 }
