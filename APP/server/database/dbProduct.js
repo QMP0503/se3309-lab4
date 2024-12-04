@@ -50,6 +50,44 @@ async function getProductDetailsRing(id) {
     }
 }
 
+
+async function getProductDetailNecklace(id) {
+    const client = await db.createDb();
+
+    try {
+        const [results] = await client.query(`
+            SELECT Product.name,
+                   Product.mass,
+                   Product.price,
+                   Product.type,
+                   necklace.name        AS necklaceName,
+                   necklace.size        AS necklaceSize,
+                   necklace.totalVolume AS necklaceVolume,
+                   Link.name            AS linkName,
+                   link.size            AS linkSize,
+                   g.name               AS gemName,
+                   g.quality            AS gemQuality,
+                   g.carat              AS gemCarat,
+                   g.shape              AS gemShape
+            FROM Product
+                     JOIN Necklace ON Product.necklaceId = Necklace.necklaceId
+                     JOIN Link ON Necklace.linkId = Link.linkId
+                     JOIN Metal ON Product.metalId = Metal.metalId
+                     LEFT JOIN family_jewels.gem g ON Product.gemId = g.gemId
+            WHERE Product.productId = ?
+        `, [id]); // Use parameterized query to prevent SQL injection
+
+        return results[0]; // Return the first product found
+    } catch (error) {
+        console.error('Error fetching product by ID:', error.message);
+        throw error;
+    } finally {
+        await client.end();
+    }
+}
+
+
+
 // Get a ring product details by ID
 async function getProductDetailsNecklace(id) {
     const client = await db.createDb();
@@ -139,4 +177,4 @@ async function deleteProduct(id) {
     }
 }
 
-module.exports = {getProducts, getProduct, addProduct, updateProduct, deleteProduct, getProductDetailsRing};
+module.exports = {getProducts, getProduct, addProduct, updateProduct, deleteProduct, getProductDetailsRing, getProductDetailNecklace};

@@ -1,5 +1,4 @@
 const db = require('./db.js');
-const {rows} = require("express/lib/response");
 
 async function getOrders() {
     const client = await db.createDb();
