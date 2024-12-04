@@ -1,0 +1,97 @@
+.background {
+    display: flex;
+    background-color: #ebebe6;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+
+    justify-content: center;
+    align-items: center;
+}
+
+.label-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: start;
+}
+
+.input-wrapper {
+    display: flex;
+    flex-direction: column;
+
+    height: fit-content;
+    margin: 20px 100px;
+
+    align-items: center;
+    justify-content: center;
+
+    gap: 14px
+}
+
+.login-panel {
+    width: 400px;
+    height: fit-content;
+    padding: 29px 0px;
+    display: flex;
+    flex-direction: column;
+
+    border-radius: 10px;
+
+    background-color: white;
+}
+
+.signup-panel {
+    width: 600px;
+    height: fit-content;
+    padding: 29px 0px;
+    display: flex;
+    flex-direction: column;
+
+    border-radius: 10px;
+
+    background-color: white;
+}
+
+.login-input {
+    width: 200px;
+    height: 30px;
+
+    border-radius: 8px;
+    border: solid 1px rgb(180, 180, 180);
+    padding: 4px 10px;
+}
+
+.login-label {
+    font-weight: bold;
+}
+
+.login-button {
+    width: 220px;
+    background-color: #685b4d;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 14px;
+    padding: 16px 5px;
+    margin-top: 10px;
+    cursor: pointer;
+    align-self: center;
+}
+
+.column-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.column {
+    display: flex;
+    flex-direction: column;
+    margin: 20px 20px;
+    gap: 10px
+}
+
+.error-message {
+    font-style: italic;
+}

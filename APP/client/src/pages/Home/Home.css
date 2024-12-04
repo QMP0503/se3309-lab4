@@ -1,0 +1,48 @@
+.background-wrapper {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+}
+
+.title-splash {
+    width: 60%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #c0b8ab;
+}
+
+.enter-site {
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    background-color: #ebebe6;
+}
+
+.home-title {
+    color: white;
+    font-size: 70px;
+}
+
+.home-subtitle {
+    color: #685b4d;
+    font-size: 30px;
+}
+
+.home-button {
+    width: 220px;
+    background-color: #685b4d;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 20px;
+    padding: 16px 5px;
+    margin-top: 10px;
+    cursor: pointer;
+}
