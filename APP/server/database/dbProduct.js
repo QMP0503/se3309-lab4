@@ -2,7 +2,7 @@ const db = require('./db.js'); // Assuming this returns a pool or client instanc
 
 // Get all products
 async function getProducts() {
-    const client = db.createDb(); // Create a connection or pool instance
+const client = await db.createDb();
 
     try {
         const [results] = await client.query('SELECT * FROM family_jewels.product');
@@ -17,7 +17,7 @@ async function getProducts() {
 
 // Get a product by ID
 async function getProduct(id) {
-    const client = db.createDb();
+    const client = await db.createDb();
 
     try {
         const [results] = await client.query('SELECT * FROM family_jewels.product WHERE productId = ?', [id]);
@@ -32,7 +32,7 @@ async function getProduct(id) {
 
 // Add a new product
 async function addProduct(product) {
-    const client = db.createDb();
+    const client = await db.createDb();
 
     try {
         await client.query(
@@ -52,7 +52,7 @@ async function addProduct(product) {
 
 // Update a product
 async function updateProduct(product) {
-    const client = db.createDb();
+    const client = await db.createDb();
 
     try {
         await client.query(
@@ -88,7 +88,7 @@ async function updateProduct(product) {
 
 // Delete a product by ID
 async function deleteProduct(id) {
-    const client = db.createDb();
+    const client = await db.createDb();
 
     try {
         await client.query('DELETE FROM family_jewels.product WHERE productId = ?', [id]);

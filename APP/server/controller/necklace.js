@@ -1,5 +1,5 @@
 const dbNecklace = require('../database/dbNecklace');
-const { verifyToken } = require('tokenFunction');
+const { verifyToken } = require('./tokenFunction');
 
 exports.getAllNecklaces = async (req, res) => {
     try {

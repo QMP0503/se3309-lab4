@@ -2,9 +2,10 @@ const db = require('./db.js'); // Assuming db.createDb() creates a connection or
 
 // Get all gems
 async function getAllGems() {
-    const client = db.createDb(); // Create a connection or pool instance
+    const client = await db.createDb(); // Create a connection or pool instance
 
     try {
+        console.log('client:', client);
         const results = await client.query('SELECT * FROM family_jewels.gem');
         return results[0];
     } catch (error) {
@@ -17,7 +18,7 @@ async function getAllGems() {
 
 // Get a gem by its ID
 async function getGemById(gem_id) {
-    const client = db.createDb();
+    const client = await db.createDb();
 
     try {
         const results = await client.query('SELECT * FROM family_jewels.gem WHERE gemId = ?', [gem_id]);

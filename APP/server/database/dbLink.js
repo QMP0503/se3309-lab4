@@ -2,7 +2,7 @@ const db = require('./db.js');
 
 //get all link
 async function getLink() {
-    const client = db.createDb();
+    const client = await db.createDb();
     try {
         await client.connect();
         const res = await client.query('SELECT * FROM family_jewels.link');
@@ -17,7 +17,7 @@ async function getLink() {
 
 //add link
 async function addLink(link) {
-    const client = db.createDb();
+    const client = await db.createDb();
     try {
         await client.connect();
         await client.query(
@@ -37,7 +37,7 @@ async function addLink(link) {
 
 //update link
 async function updateLink(link) {
-    const client = db.createDb();
+    const client = await db.createDb();
     try {
         await client.connect();
         await client.query(
@@ -57,7 +57,7 @@ async function updateLink(link) {
 
 //delete link
 async function deleteLink(linkId) {
-    const client = db.createDb();
+    const client = await db.createDb();
     try {
         await client.connect();
         await client.query('DELETE FROM family_jewels.link WHERE linkId = ?', [linkId]);

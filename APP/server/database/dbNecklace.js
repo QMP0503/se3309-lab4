@@ -1,7 +1,7 @@
 const db = require('./db');
 
 async function getNecklaces() {
-    const client = db.createDb();
+    const client = await db.createDb();
     try {
         await client.connect();
         const res = await client.query('SELECT * FROM family_jewels.necklace');
@@ -15,7 +15,7 @@ async function getNecklaces() {
 }
 
 async function addNecklace(necklace) {
-    const client = db.createDb();
+    const client = await db.createDb();
     try {
         await client.connect();
         await client.query(
@@ -34,7 +34,7 @@ async function addNecklace(necklace) {
 }
 
 async function updateNecklace(necklace) {
-    const client = db.createDb();
+    const client = await db.createDb();
     try {
         await client.connect();
         await client.query(
@@ -53,7 +53,7 @@ async function updateNecklace(necklace) {
 }
 
 async function deleteNecklace(necklaceId) {
-    const client = db.createDb();
+    const client = await db.createDb();
     try {
         await client.connect();
         await client.query(

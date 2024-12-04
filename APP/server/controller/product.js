@@ -1,5 +1,5 @@
 const dbProduct = require('../database/dbProduct');
-const { verifyToken } = require('tokenFunction');
+const { verifyToken } = require('./tokenFunction');
 
 exports.getAllProducts = async (req, res) => {
     try {

@@ -2,7 +2,7 @@ const db = require('./db.js');
 const {rows} = require("express/lib/response");
 
 async function getOrders() {
-    const client = db.createDb();
+    const client = await db.createDb();
     try {
         await client.connect();
         const res = await client.query('SELECT * FROM family_jewels.customer_order');
@@ -17,7 +17,7 @@ async function getOrders() {
 
 //add order
 async function addOrder(order) {
-    const client = db.createDb();
+    const client = await db.createDb();
     try {
         await client.connect();
         await client.beginTransaction();
@@ -53,7 +53,7 @@ async function addOrder(order) {
 
 //update order
 async function updateOrder(order) {
-    const client = db.createDb();
+    const client = await db.createDb();
     try {
         await client.connect();
         await client.beginTransaction();
@@ -86,7 +86,7 @@ async function updateOrder(order) {
 
 //delete order
 async function deleteOrder(orderId) {
-    const client = db.createDb();
+    const client = await db.createDb();
     try {
         await client.connect();
         await client.query('DELETE FROM family_jewels.customer_order WHERE orderId = ?', [orderId]);

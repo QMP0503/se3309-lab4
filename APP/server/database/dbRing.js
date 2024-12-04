@@ -1,11 +1,11 @@
 const db = require('./db');
 
 async function getRings() {
-    const client = db.createDb();
+    const client = await db.createDb();
     try {
         await client.connect();
         const res = await client.query('SELECT * FROM family_jewels.ring');
-        return res.rows;
+        return res[0];
     } catch (error) {
         console.error('Error getting rings:', error.message);
         throw error;
@@ -16,12 +16,12 @@ async function getRings() {
 
 // Add a ring
 async function addRing(ring) {
-    const client = db.createDb();
+    const client = await db.createDb();
     try {
         await client.connect();
         await client.query(
             `INSERT INTO family_jewels.ring
-             (name, size, volume)
+                 (name, size, volume)
              VALUES (?, ?, ?)`,
             [ring.name, ring.size, ring.volume]
         );
@@ -37,7 +37,7 @@ async function addRing(ring) {
 
 // Update a ring
 async function updateRing(ring) {
-    const client = db.createDb();
+    const client = await db.createDb();
     try {
         await client.connect();
         await client.query(
@@ -61,7 +61,7 @@ async function updateRing(ring) {
 
 // Delete a ring
 async function deleteRing(ringId) {
-    const client = db.createDb();
+    const client = await db.createDb();
     try {
         await client.connect();
         await client.query('DELETE FROM family_jewels.ring WHERE ringId = ?', [ringId]);

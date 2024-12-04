@@ -1,5 +1,4 @@
 const dbRing = require('../database/dbRing');
-const {verifyToken} = require('tokenFunction');
 
 exports.getAllRings = async (req, res) => {
     try {

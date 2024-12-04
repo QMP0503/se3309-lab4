@@ -2,12 +2,12 @@ const db = require('./db'); // Assuming db.createDb() returns a connection or po
 
 //only used for login
 async function userLogin(username) {
-    const client = db.createDb();
+const client = await db.createDb();
     client.connect();
     return client.query('SELECT * FROM ed.users WHERE username = $1', [username])
         .then(res => {
             client.end();
-            return res.rows[0];
+            return res[0];
         })
         .catch(err => {
             client.end();
@@ -17,10 +17,10 @@ async function userLogin(username) {
 
 // Get all users
 async function getUsers() {
-    const client = db.createDb();
+const client = await db.createDb();
     try {
-        const [results] = await client.query('SELECT * FROM user');
-        return results;
+        const results = await client.query('SELECT * FROM user');
+        return results[0];
     } catch (error) {
         console.error('Error fetching users:', error.message);
         throw error;
@@ -31,7 +31,7 @@ async function getUsers() {
 
 // Get a user by ID
 async function getUserById(id) {
-    const client = db.createDb();
+const client = await db.createDb();
 
     try {
         const [results] = await client.query('SELECT * FROM user WHERE userid = ?', [id]);
@@ -46,7 +46,7 @@ async function getUserById(id) {
 
 // Add a new user (Admin or Customer)
 async function addUser(user) {
-    const client = db.createDb();
+const client = await db.createDb();
 
     try {
         await client.connect();
@@ -81,7 +81,7 @@ async function addUser(user) {
 
 // Update an existing user
 async function updateUser(user) {
-    const client = db.createDb();
+const client = await db.createDb();
 
     try {
         // Update the `user` table
@@ -113,7 +113,7 @@ async function updateUser(user) {
 
 // Delete a user by ID (only from `user` table, not `customer`)
 async function deleteUser(id) {
-    const client = db.createDb();
+const client = await db.createDb();
 
     try {
         await client.query('DELETE FROM user WHERE userid = ?', [id]);

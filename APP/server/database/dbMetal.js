@@ -2,7 +2,7 @@ const db = require('./db.js');
 
 //get all metal
 async function getMetals(){
-    const client = db.createDb();
+    const client = await db.createDb();
     try {
         await client.connect();
         const res = await client.query('SELECT * FROM family_jewels.metal');
@@ -17,7 +17,7 @@ async function getMetals(){
 
 //add metal
 async function addMetal(metal){
-    const client = db.createDb();
+    const client = await db.createDb();
     try {
         await client.connect();
         await client.query(            `INSERT INTO family_jewels.metal
@@ -37,7 +37,7 @@ async function addMetal(metal){
 
 //update metal
 async function updateMetal(metal){
-    const client = db.createDb();
+    const client = await db.createDb();
     try {
         await client.connect();
         await client.query(
@@ -58,7 +58,7 @@ async function updateMetal(metal){
 
 //delete metal
 async function deleteMetal(metalId){
-    const client = db.createDb();
+    const client = await db.createDb();
     try {
         await client.connect();
         await client.query('DELETE FROM family_jewels.metal WHERE metalId = ?', [metalId]);
