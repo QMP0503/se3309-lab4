@@ -91,12 +91,13 @@ async function getProductDetailNecklace(id) {
 // Get a ring product details by ID
 async function getProductDetailsNecklace(id) {
     const client = await db.createDb();
-
+    console.log('hi');
+    const tempId = 6;
     try {
         const [results] = await client.query(`SELECT Product.name, Product.mass, Product.price, Product.type, Ring.name, Ring.size, Ring.volume 
                                                 FROM Product
                                                 JOIN Ring ON Product.ringId=Ring.ringId
-                                                WHERE Product.productId = ${id}`);
+                                                WHERE Product.productId = ${tempId}`);
         return results[0]; // Return the first product found
     } catch (error) {
         console.error('Error fetching product by ID:', error.message);

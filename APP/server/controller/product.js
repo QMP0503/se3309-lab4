@@ -139,7 +139,7 @@ exports.getNecklaceDetails = async (req, res) => {
         }
 
         // Fetch product details from the database using the provided productId
-        const productDetail = await dbProduct.getProductDetailNecklace(productId);
+        const productDetail = await dbProduct.getProductDetailsNecklace(productId);
 
         // If no product details found, return a 404 error
         if (!productDetail) {

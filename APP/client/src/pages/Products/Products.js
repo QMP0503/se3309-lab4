@@ -107,8 +107,8 @@ const Products = () => {
       </div>
       
       <div className='details-popup' hidden={!details}>
+        
         <div className='details-panel'>
-       
           <h2>Name: {selectedProduct.productName}</h2>
           <img src={isRing ? ring : necklace} className='img-details'></img>
 
@@ -119,7 +119,7 @@ const Products = () => {
             <p className='product-details'>Volume: {selectedProduct.volume}</p>
             <p className='product-details'>Metal Purity: {selectedProduct.purity}</p>
             <p className='product-details'>Metal Type: {selectedProduct.type}</p>
-            {/* <p className='product-details'>Gem: {}</p> */}
+          
             <p className='product-details'>Creator: {selectedProduct.firstName + " " + selectedProduct.lastName}</p>
           
           </div> 
@@ -145,8 +145,8 @@ const Products = () => {
         }})
       .then(response => response.json())
       .then(data => {
-        console.log(data)
-        setSelectedProduct(data.message);
+        console.log(data.ProductDetail)
+        setSelectedProduct(data.ProductDetail);
       })
       .catch(error => {
           console.error("Error fetching products", error);
@@ -163,16 +163,12 @@ const Products = () => {
       .then(response => response.json())
       .then(data => {
         console.log(data)
-        setSelectedProduct(data.message);
+        setSelectedProduct(data.ProductDetail);
       })
       .catch(error => {
           console.error("Error fetching products", error);
       });
     }
-
-
-    
-
     
   }
 
