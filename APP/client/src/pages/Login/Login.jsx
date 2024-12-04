@@ -34,16 +34,17 @@ function Login () {
                 throw new Error(data.error || "Login failed");
             }
 
+            console.log(data);
             // Store token in session storage
             sessionStorage.setItem("token", data.token);
             sessionStorage.setItem("user", JSON.stringify(data.user));
+            console.log(data.message);
+            console.log(JSON.parse(sessionStorage.getItem("user")));
 
             // Redirect to home page
             navigate("/");
-            window.location.reload();
 
-            console.log(data.message);
-            console.log(sessionStorage.getItem("user"));
+            window.location.reload();
 
         } catch (err) {
             setError(err.message);

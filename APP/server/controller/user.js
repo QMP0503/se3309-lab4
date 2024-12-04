@@ -6,23 +6,23 @@ exports.login = async (req, res) => {
     try{
         //logging in with username because user does not have email
         const { username, password } = req.body;
-        const user = await dbUser.userLogin(username);//MySQL returns an array of objects instead of just an object
+        const result = await dbUser.userLogin(username);//MySQL returns an array of objects instead of just an object
 
-        if (!user) {
+        if (!result) {
             return res.status(404).json({ error: 'User not found' });
         }
 
         //compare password (no hash cause no time)
-        if(!password === user.password){
+        if(!password === result.password){
             return res.status(401).json({ error: 'Invalid password' });
         }
 
-        if(user.status === 'deactivated'){
-            return res.status(402).json({error: 'Deactivated account status'})
-        }
-        console.log(user[0]);
+        const user = result[0];
 
-        const token = generateToken(user[0]);
+        console.log(user);
+
+        const token = generateToken(user);
+
 
         res.status(200).json({ //this is what will be stored in the front end
             message: 'Login successful',
@@ -30,8 +30,8 @@ exports.login = async (req, res) => {
                 user_id: user.userId,
                 username: user.username,
                 firstName: user.type,
-                lastName: user.status,
-                userType: user.userType
+                lastName: user.lastName,
+                userType: user.firstName
             },
             token: token
         });
