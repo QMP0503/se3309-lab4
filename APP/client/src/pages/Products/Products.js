@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import "./Products.css"
 import ring from "../../images/ring.png"
 import necklace from "../../images/necklace.png"
@@ -15,23 +15,21 @@ const Products = () => {
 
   useEffect(() => {
     setProducts();
+  }, []);
 
-    fetch('/api/metals', {
-      method: 'GET',
-      headers: {"Content-Type": "application/json"}
-    })
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data)
-      if (Array.isArray(data)) {
-        setMetals(data); // Store the fetched countries in state
-      }
-    })
-    .catch((error) => console.error('Error fetching metals:', error));
+  useEffect(()=>{
+    fetch('/api/open/metals')
+      .then((response) => response.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setMetals(data); // Store the fetched countries in state
+        }
+      })
+      .catch((error) => console.error('Error fetching metals:', error));
+  },[metals]);
 
-    fetch('/api/gems')
+  useEffect(()=>{
+    fetch('/api/open/gems')
       .then((response) => response.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -39,7 +37,9 @@ const Products = () => {
         }
       })
       .catch((error) => console.error('Error fetching gems:', error));
-  }, []);
+  },[gems]);
+
+
 
   return (
     <div className='page-wrap'>
@@ -124,7 +124,7 @@ const Products = () => {
 
   function handleDetailsOpen(type, id) {
     setDetails(true)
-    if(type == "ring") {
+    if(type === "ring") {
       setRing(true);
     }
     else {
@@ -157,20 +157,8 @@ const Products = () => {
   }
 
   function setProducts() {
-    fetch('/api/metals', {
-      method: 'GET',
-      headers: {"Content-Type": "application/json"}
-    })
-    .then((response) => {
-      return response.json();
-    })
-    .then((data) => {
-      console.log(data)
-      if (Array.isArray(data)) {
-        setMetals(data); // Store the fetched countries in state
-      }
-    })
-    .catch((error) => console.error('Error fetching metals:', error));
+    //API CALL TO POPULATE productPanels WITH EXISTING PRODUCTS
+    //NEED productId, price, all other attributes (would be good to select actual value instead of id, i.e. actual metal name instead of metalId)
     
     const testArray = [{
       id: 1,

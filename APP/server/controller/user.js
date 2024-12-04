@@ -7,19 +7,18 @@ exports.login = async (req, res) => {
         //logging in with username because user does not have email
         const { username, password } = req.body;
         const result = await dbUser.userLogin(username);//MySQL returns an array of objects instead of just an object
+        const user = result[0];
 
         if (!result) {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        console.log(result.password)
-
         //compare password (no hash cause no time)
-        if(!(password === result.password)){
+        if(!(password === user.password)){
             return res.status(401).json({ error: 'Invalid password' });
         }
 
-        const user = result[0];
+
 
         console.log(user);
 
