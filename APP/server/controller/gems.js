@@ -3,6 +3,7 @@ const dbGems = require('../database/dbGems');
 exports.getGems = async (req, res) => {
     try {
         const gems =  await dbGems.getAllGems();
+        console.log(gems)
         res.status(200).json(gems);
     } catch (error) {
         console.log('Error getting gems:', error);

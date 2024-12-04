@@ -1,7 +1,5 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 import {Link, useNavigate} from 'react-router-dom'
-
-const host = `http://${window.location.hostname}:5000`;
 
 function Signup() {
     const [email, setEmail] = useState("");
@@ -19,6 +17,10 @@ function Signup() {
 
     const emailRegex = /^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}$/;
 
+    useEffect(() => {
+        passwordConfirmation();
+    }, [cpassword]);
+
     // Regex pattern for email validation for the sake of it
     const handleEmailChange = (e) => {
         setEmail(e.target.value);
@@ -29,8 +31,7 @@ function Signup() {
         }
     };
 
-    const passwordConfirmation = (e) => {
-        setConfPassword(e.target.value);
+    const passwordConfirmation = () => {
         if (password !== cpassword) {
             setPassError('Passwords do not match');
         } else {
@@ -44,7 +45,7 @@ function Signup() {
 
 
         try {
-            const response = await fetch(`${host}/api/register`, {
+            const response = await fetch(`/api/register`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -154,7 +155,7 @@ function Signup() {
                                 <input type='password'
                                        className='login-input'
                                        value={cpassword}
-                                       onChange={passwordConfirmation}/>
+                                       onChange={e => setConfPassword(e.target.value)}/>
                                 {passError && <p className="error-message">{passError}</p>}
                             </div>
                         </div>

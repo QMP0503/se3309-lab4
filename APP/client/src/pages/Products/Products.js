@@ -15,21 +15,23 @@ const Products = () => {
 
   useEffect(() => {
     setProducts();
-  }, []);
 
-  useEffect(()=>{
-    fetch('/api/open/metals')
-      .then((response) => response.json())
-      .then((data) => {
-        if (Array.isArray(data)) {
-          setMetals(data); // Store the fetched countries in state
-        }
-      })
-      .catch((error) => console.error('Error fetching metals:', error));
-  },[metals]);
+    fetch('/api/metals', {
+      method: 'GET',
+      headers: {"Content-Type": "application/json"}
+    })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data)
+      if (Array.isArray(data)) {
+        setMetals(data); // Store the fetched countries in state
+      }
+    })
+    .catch((error) => console.error('Error fetching metals:', error));
 
-  useEffect(()=>{
-    fetch('/api/open/gems')
+    fetch('/api/gems')
       .then((response) => response.json())
       .then((data) => {
         if (Array.isArray(data)) {
@@ -37,9 +39,7 @@ const Products = () => {
         }
       })
       .catch((error) => console.error('Error fetching gems:', error));
-  },[gems]);
-
-
+  }, []);
 
   return (
     <div className='page-wrap'>
@@ -157,8 +157,20 @@ const Products = () => {
   }
 
   function setProducts() {
-    //API CALL TO POPULATE productPanels WITH EXISTING PRODUCTS
-    //NEED productId, price, all other attributes (would be good to select actual value instead of id, i.e. actual metal name instead of metalId)
+    fetch('/api/metals', {
+      method: 'GET',
+      headers: {"Content-Type": "application/json"}
+    })
+    .then((response) => {
+      return response.json();
+    })
+    .then((data) => {
+      console.log(data)
+      if (Array.isArray(data)) {
+        setMetals(data); // Store the fetched countries in state
+      }
+    })
+    .catch((error) => console.error('Error fetching metals:', error));
     
     const testArray = [{
       id: 1,

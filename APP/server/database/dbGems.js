@@ -3,7 +3,7 @@ const db = require('./db.js'); // Assuming db.createDb() creates a connection or
 // Get all gems
 async function getAllGems() {
     const client = await db.createDb(); // Create a connection or pool instance
-
+    
     try {
         console.log('client:', client);
         const results = await client.query('SELECT * FROM family_jewels.gem');

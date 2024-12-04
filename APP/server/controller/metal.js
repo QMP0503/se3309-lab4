@@ -2,6 +2,18 @@ const dbMetal = require('../database/dbMetal');
 const {verifyToken} = require("./tokenFunction");
 
 exports.getMetal = async (req, res) => {
+    console.log("asdasd")
+    try {
+        const metal =  await dbMetal.getMetals();
+        res.status(200).json(metal);
+    } catch (error) {
+        console.log('Error getting metal:', error);
+        throw error;
+    }
+}
+
+exports.getMetalDistinct = async (req, res) => {
+    console.log("asdasd")
     try {
         const metal =  await dbMetal.getMetals();
         res.status(200).json(metal);

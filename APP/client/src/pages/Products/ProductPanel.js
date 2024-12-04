@@ -3,6 +3,8 @@ import ring from "../../images/ring.png"
 import necklace from "../../images/necklace.png"
 
 const ProductPanel = ({name, price, type, handleDetailsOpen, addToCart}) => {
+
+
   return (
     <div className='product-panel'>
         <img src={type == "necklace" ? necklace : ring} className='img-icon'/>
@@ -16,6 +18,8 @@ const ProductPanel = ({name, price, type, handleDetailsOpen, addToCart}) => {
         </div>
     </div>
   )
+
+  
 }
 
 export default ProductPanel

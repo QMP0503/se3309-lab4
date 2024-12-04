@@ -12,8 +12,10 @@ exports.login = async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
+        console.log(result.password)
+
         //compare password (no hash cause no time)
-        if(!password === result.password){
+        if(!(password === result.password)){
             return res.status(401).json({ error: 'Invalid password' });
         }
 
