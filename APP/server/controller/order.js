@@ -10,6 +10,7 @@ exports.getAllOrders = async (req, res) => {
     }
 }
 
+//get for only one user
 exports.getAllUserOrders = async (req, res) => {
     try {
         const id = req.params.id;
