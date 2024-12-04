@@ -40,7 +40,7 @@ async function addProduct(product) {
                  (name, mass, price, metalId, gemId, necklaceId, ringId, creatorId)
              VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
             [product.name, product.mass, product.price, product.metalId, product.gemId, product.necklaceId, product.ringId, product.creatorId]
-        );
+        ); //creatorID is the fucking userID
         console.log('Product added successfully.');
     } catch (error) {
         console.error('Error adding product:', error.message);
