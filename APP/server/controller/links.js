@@ -58,5 +58,41 @@ exports.deleteLink = async (req, res) => {
             return res.status(400).json({error: "Invalid link data"});
         }
 
+    }catch (error) {
+        console.error('Error deleting link:', error);
+        res.status(500).json({error: 'Failed to delete link'});
+    }
+}
+
+exports.updateLink = async (req, res) => {
+    try {
+        const authorized = req.headers.authorization;
+        const checkUser = verifyToken(authorized);
+
+        if (!checkUser) {
+            return res.status(401).json({error: 'Unauthorized'});
+        } else if (checkUser.type !== 'admin') {
+            return res.status(403).json({error: 'Forbidden'});
+        }
+
+        const {linkId} = req.params;
+        const {name, size, volume} = req.body;
+        if(!linkId || isNaN(linkId)) {
+            return res.status(400).json({error: "Invalid link ID"});
+        }else if(!name || !size || !volume) {
+            return res.status(400).json({error: "Invalid link data"});
+        }
+
+        const link = {linkId, name, size, volume};
+        const updatedLink = await dbLinks.updateLink(link);
+
+        res.status(200).json({
+            message: 'Link updated successfully',
+            link: updatedLink
+        });
+
+    } catch (error) {
+        console.error('Error updating link:', error);
+        res.status(500).json({error: 'Failed to update link'});
     }
 }

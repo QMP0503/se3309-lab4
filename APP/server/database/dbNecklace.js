@@ -5,7 +5,7 @@ async function getNecklaces() {
     try {
         await client.connect();
         const res = await client.query('SELECT * FROM family_jewels.necklace');
-        return res.rows;
+        return res[0];
     } catch (error) {
         console.error('Error getting necklaces:', error.message);
         throw error;
