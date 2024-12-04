@@ -213,9 +213,7 @@ const CreateProduct = () => {
       .then(data => {
           alert("Necklace order created successfully!");
           const neckId = data.neckId;
-          // console.log("id:"+data.neckId);
-          // console.log(sessionStorage.getItem("user")) ////////////SEEEEESSSSSIOOOOON STOOOOORAAAAAGEEEE ISSSSS NULLLLLL o wait
-          
+
           const userString = sessionStorage.getItem("user");
           let userId;
 
@@ -237,12 +235,9 @@ const CreateProduct = () => {
                 price: price, //mass*$pg metal + gem
                 metalId: metal.metalId, 
                 gemId: gem.gemId, 
-                necklaceId: neckId, //find way to iterate from last created??? shouldnt this be done on the backend
+                necklaceId: neckId,
                 ringId: null,  
-                creatorId: userId//FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIXXXXXXXXXXXXXX
-                                    //FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIXXXXXXXXXXXXXX
-                                                          //FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIXXXXXXXXXXXXXX
-                                                                              //FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIXXXXXXXXXXXXXX
+                creatorId: userId
               })})
           .then(response => {
               if (response.status === 201) {
