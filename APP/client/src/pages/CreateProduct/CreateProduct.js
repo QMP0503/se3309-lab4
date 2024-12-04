@@ -201,6 +201,49 @@ const CreateProduct = () => {
             alert("Please log in to create an order.");
             return;
         } else {
+            // Do API Stuff to create a necklace order
+        const mass = linkNum * link.volume * metal.density;
+        const price = mass*metal.costPerGram;
+        if(gem){
+          price += gem.price;
+        }
+        console.log("link")
+        fetch("/api/necklaces", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                linkId: link.linkId,
+                name: `${link.name} Necklace, ${link}mm`, /////////////////SOMEHOW GET SIZE FOR THE NAME 
+                size: 300,  //volume*density of metal
+                volume: ringVolume, //mass*$pg metal + gem
+            })
+        })
+        .then(response => {
+            if (response.status === 201) {
+            // Parse the JSON only if the response is successful
+            return response.json();
+            } else {
+            throw new Error("Unexpected Error");
+            }
+        })
+        .then(data => {
+            alert("Necklace order created successfully!");
+            const neckId = data.neckId;
+            // console.log("id:"+data.neckId);
+            // console.log(sessionStorage.getItem("user")) ////////////SEEEEESSSSSIOOOOON STOOOOORAAAAAGEEEE ISSSSS NULLLLLL o wait
+            
+            const userString = sessionStorage.getItem("user");
+            let userId;
+
+            const user = JSON.parse(userString); 
+            if(user.user_id != null){
+                userId = user.user_id
+            }else {
+                userId = 1;
+            }
+   
             fetch("/api/products", {
                 method: "POST",
                 headers: {
@@ -239,8 +282,7 @@ const CreateProduct = () => {
                 });
 
 
-        }
-    ).
+        }).
         catch(error => {
             console.error("Error creating ring order:", error);
             alert("Error creating ring order.");
