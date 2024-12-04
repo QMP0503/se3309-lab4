@@ -15,14 +15,16 @@ exports.addProduct = async (req, res) => {
     try {
         const token = req.headers.authorization;
         const user = verifyToken(token);
-        if(!user){
-            return res.status(401).json({ message: 'Unauthorized' });
-        }else if (user.role !== 'admin') {
-            return res.status(403).json({ message: 'Forbidden' });
-        }
-        //CREATOR ID IS THE FUCKING USER ID
+        console.log(user)
+        // if(!user){
+        //     return res.status(401).json({ message: 'Unauthorized' });
+        // }else if (user.role !== 'admin') {
+        //     return res.status(403).json({ message: 'Forbidden' });
+        // }
+        //CREATOR ID IS THE USER ID
         const {name, mass, price, metalId, gemId, necklaceId, ringId, creatorId} = req.body;
-        if (!name || !mass || !price || !metalId || !gemId || (!necklaceId || !ringId) || !creatorId) {
+        console.log(name, mass, price, metalId, gemId, necklaceId, ringId, creatorId)
+        if (!name || !mass || !price || !metalId || (!necklaceId && !ringId) || !creatorId) {
             return res.status(400).json({ message: 'All fields are required.' });
         }
         const product = {

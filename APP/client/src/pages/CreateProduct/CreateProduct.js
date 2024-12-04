@@ -178,7 +178,7 @@ const CreateProduct = () => {
   }
 
   function createNecklaceOrder() {
-    if(!localStorage.getItem("username")) {
+    if(!sessionStorage.getItem("user")) {
       //Dont allow creation
       alert("Please log in to create an order.");
       return;
@@ -259,19 +259,21 @@ const CreateProduct = () => {
   }
 
   function createRingOrder() {
-    if(localStorage.getItem("username")) {
+    if(!sessionStorage.getItem("user")) {
         //Dont allow creation
         alert("Please log in to create an order.");
         return;
     } else {
         // Do API Stuff to create a necklace order
         
-        console.log(metal.name);
+        console.log("dense ", metal.density);
         const mass = metal.density * ringVolume;
         let price = mass*metal.costPerGram;
         if(gem){
           price += gem.price;
         }
+
+        console.log("price", gem)
         console.log(ringSize);
         console.log(ringVolume);
 
@@ -299,11 +301,15 @@ const CreateProduct = () => {
             }else {
               userId = 0;
             }
+
+            console.log(mass)
+
             fetch("/api/products", {
               method: "POST",
               headers: {
                   "Content-Type": "application/json"
               },
+
               body: JSON.stringify({
                 name: ringName, 
                 mass: mass,  //volume*density of metal
@@ -319,7 +325,7 @@ const CreateProduct = () => {
               })})
           .then(response => response.json())
           .then(data => {
-              alert("{Product order created successfully!");
+              alert("Product order created successfully!");
           })
           .catch(error => {
               console.error("Error creating product order:", error);
