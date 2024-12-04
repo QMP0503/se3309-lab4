@@ -19,14 +19,17 @@ async function addRing(ring) {
     const client = await db.createDb();
     try {
         await client.connect();
-        await client.query(
+        const [result] = await client.query(
             `INSERT INTO family_jewels.ring
                  (name, size, volume)
              VALUES (?, ?, ?)`,
             [ring.name, ring.size, ring.volume]
         );
         console.log('Ring added successfully.');
-        return true;
+
+        const ringId = result.insertId;
+        //console.log(ringId);
+        return ringId;
     } catch (error) {
         console.error('Error adding ring:', error.message);
         throw error;

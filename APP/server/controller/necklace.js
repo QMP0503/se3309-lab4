@@ -12,6 +12,8 @@ exports.getAllNecklaces = async (req, res) => {
 
 exports.addNecklace = async (req, res) => {
     try {
+        
+
         const token = req.headers.authorization;
         const user = verifyToken(token);
         if(!user){
@@ -56,8 +58,8 @@ exports.updateNecklace = async (req, res) => {
             size,
             totalVolume
         };
-        await dbNecklace.updateNecklace(necklace);
-        res.status(200).json({ message: 'Necklace updated successfully.' });
+        const neckId = await dbNecklace.updateNecklace(necklace);
+        res.status(200).json({ message: 'Necklace updated successfully.',neckId:neckId });
     } catch (error) {
         res.status(500).json({ error: error.message });
     }

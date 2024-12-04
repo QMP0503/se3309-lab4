@@ -18,13 +18,17 @@ async function addNecklace(necklace) {
     const client = await db.createDb();
     try {
         await client.connect();
-        await client.query(
+        const [result] = await client.query(
             `INSERT INTO family_jewels.necklace
              (linkId, name, linkAmount, size, totalVolume)
              VALUES (?, ?, ?, ?, ?) `,
             [necklace.linkId, necklace.name, necklace.linkAmount, necklace.size, necklace.totalVolume]
         );
         console.log('Necklace added successfully.');
+
+        const neckId = result.insertId;
+        //console.log(ringId);
+        return neckId;
     } catch (error) {
         console.error('Error adding necklace:', error.message);
         throw error;

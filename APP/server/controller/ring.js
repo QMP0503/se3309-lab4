@@ -12,8 +12,8 @@ exports.getAllRings = async (req, res) => {
 exports.addRing = async (req, res) => {
     try {
         const ring = req.body;
-        await dbRing.addRing(ring);
-        res.status(201).json({message: 'Ring added successfully.'});
+        const ringId = await dbRing.addRing(ring);
+        res.status(201).json({message: 'Ring added successfully.', ringId : ringId});
     } catch (error) {
         res.status(500).json({message: error.message});
     }
