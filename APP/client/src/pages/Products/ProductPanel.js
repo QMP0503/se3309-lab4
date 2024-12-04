@@ -2,10 +2,12 @@ import React from 'react'
 import ring from "../../images/ring.png"
 import necklace from "../../images/necklace.png"
 
-const ProductPanel = ({name, price, type, handleDetailsOpen, addToCart}) => {
+function ProductPanel({name, price, type, handleDetailsOpen, addToCart}){
+
+
   return (
     <div className='product-panel'>
-        <img src={type == "necklace" ? necklace : ring} className='img-icon'/>
+        <img src={type === "necklace" ? necklace : ring} className='img-icon'/>
         <div>
             <h2 className='product-name'>{name}</h2>
             <p>${price}</p>
@@ -16,6 +18,8 @@ const ProductPanel = ({name, price, type, handleDetailsOpen, addToCart}) => {
         </div>
     </div>
   )
+
+  
 }
 
 export default ProductPanel

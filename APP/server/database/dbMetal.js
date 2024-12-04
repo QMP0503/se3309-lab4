@@ -20,11 +20,12 @@ async function addMetal(metal){
     const client = await db.createDb();
     try {
         await client.connect();
-        await client.query(            `INSERT INTO family_jewels.metal
+        const penis = await client.query(            `INSERT INTO family_jewels.metal
              (name, purity, type, costPerGram, density)
              VALUES (?,?,?,?,?) `,
             [metal.name, metal.purity, metal.type, metal.costPerGram, metal.density]
         );
+        console.log(penis)
         console.log('Metal added successfully.');
         return true;
     } catch (error) {

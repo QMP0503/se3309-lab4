@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import "./Products.css"
 import ring from "../../images/ring.png"
 import necklace from "../../images/necklace.png"
@@ -124,7 +124,7 @@ const Products = () => {
 
   function handleDetailsOpen(type, id) {
     setDetails(true)
-    if(type == "ring") {
+    if(type === "ring") {
       setRing(true);
     }
     else {
